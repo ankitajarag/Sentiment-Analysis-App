@@ -2,10 +2,10 @@ import streamlit as st
 import pickle
 import re
 import string
-import nltk
 from nltk.corpus import stopwords
-
+import nltk
 nltk.download('stopwords')
+
 
 # Load saved model
 model = pickle.load(open("sentiment_model.pkl", "rb"))
