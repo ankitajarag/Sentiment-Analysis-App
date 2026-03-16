@@ -2,19 +2,23 @@ import streamlit as st
 import pickle
 import re
 import string
-from nltk.corpus import stopwords
 import nltk
-nltk.download('stopwords')
+from nltk.corpus import stopwords
 
+# Download stopwords safely
+try:
+    stop_words = set(stopwords.words("english"))
+except:
+    nltk.download("stopwords")
+    stop_words = set(stopwords.words("english"))
 
-# Load saved model
+# Load model
 model = pickle.load(open("sentiment_model.pkl", "rb"))
 
-# Load TFIDF vectorizer
+# Load vectorizer
 vectorizer = pickle.load(open("tfidf_vectorizer.pkl", "rb"))
 
-stop_words = set(stopwords.words("english"))
-
+# Text cleaning function
 def clean_text(text):
     text = text.lower()
     text = re.sub(r"http\S+", "", text)
@@ -24,7 +28,8 @@ def clean_text(text):
     words = [w for w in words if w not in stop_words]
     return " ".join(words)
 
-st.title("Sentiment Analysis App")
+# Streamlit UI
+st.title("Product Review Sentiment Analysis")
 
 review = st.text_area("Enter a review")
 
